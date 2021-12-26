@@ -4,8 +4,8 @@ import PageContainer from "../components/PageContainer"
 import styles from "../styles/DataUpload.module.css"
 
 export default function DataUpload() {
-  const [userId, setUserId] = useState("");
-  const [userDataFile, setUserDataFile] = useState(null);
+  const [userId, setUserId] = useState("")
+  const [userDataFile, setUserDataFile] = useState(null)
 
   async function onSubmitUserData(event) {
     event.preventDefault()
@@ -21,6 +21,9 @@ export default function DataUpload() {
     catch (err) {
       window.alert("ERROR: Failed to submit")
     }
+
+    setUserId("")
+    setUserDataFile(null)
   }
 
   function onChange(event) {

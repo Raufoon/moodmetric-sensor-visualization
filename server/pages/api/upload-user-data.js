@@ -1,4 +1,6 @@
 import formidable from 'formidable'
+import fs from "fs"
+const csv = require('csv-parser')
 
 export const config = {
   api: {
@@ -8,12 +10,31 @@ export const config = {
 
 export default function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).end(); // Return a "method not allowed" error
+    return res.status(405).end();
   }
 
-  const form = new formidable.IncomingForm();
+  const form = new formidable.IncomingForm({ uploadDir: "./tmp" });
   form.keepExtensions = true;
+
   form.parse(req, (err, fields, files) => {
-    console.log(err, fields, files);
-  });
+    const userId = fields.userId
+    const userDataCsvFile = files.userDataCsvFile;
+
+    const results = []
+
+    fs.createReadStream(userDataCsvFile.filepath)
+      .pipe(csv())
+      .on('data', (data) => results.push(data))
+      .on('end', () => {
+        fs.unlinkSync(userDataCsvFile.filepath)
+        res.json({
+          success: true
+        })
+      })
+      .on("error", () => {
+        res.status(404).json({
+          success: false
+        })
+      })
+  })
 }
