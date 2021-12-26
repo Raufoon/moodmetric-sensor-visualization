@@ -1,0 +1,13 @@
+.formContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.formContainer > * {
+  margin: 0.5rem;
+}
+
+.formContainer input, .formContainer button {
+  min-width: 5rem;
+  min-height: 2rem;
+}
