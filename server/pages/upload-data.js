@@ -9,31 +9,18 @@ export default function DataUpload() {
 
   async function onSubmitUserData(event) {
     event.preventDefault()
-
-    const data = new FormData()
-    data.append("user-id", userId)
-    data.append("user-data-csv-file", userDataFile)
-
-    try {
-      const response = await axios.post("api/upload-csv", data);
-      console.log(response)
-      alert("Data uploaded successfully")
-    }
-    catch (err) {
-      alert("Error:", err.message)
-    }
   }
 
   function onChange(event) {
     switch (event.target.name) {
-      case "user-id":
+      case "userId":
         {
           const value = event.target.value
           setUserId(value)
           break
         };
 
-      case "user-data-csv-file":
+      case "userDataCsvFile":
         {
           if (event.target.files.length)
             setUserDataFile(event.target.files[0])
@@ -50,12 +37,12 @@ export default function DataUpload() {
         className={styles.formContainer}
         onSubmit={onSubmitUserData}
       >
-        <label htmlFor="user-id">User ID</label>
-        <input name="user-id" onChange={onChange} placeholder="at least 5 characters" value={userId} />
+        <label>User ID</label>
+        <input name="userId" onChange={onChange} placeholder="at least 5 characters" value={userId} />
 
         <br />
-        <label htmlFor="user-data-csv-file">User Data (.csv)</label>
-        <input type="file" onChange={onChange} name="user-data-csv-file" accept=".csv" />
+        <label>User Data (.csv)</label>
+        <input type="file" onChange={onChange} name="userDataCsvFile" accept=".csv" />
 
         {
           userId?.length > 4 && !!userDataFile && <>
