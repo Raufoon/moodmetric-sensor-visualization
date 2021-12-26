@@ -9,3 +9,7 @@ sudo docker run --rm --name moodmetric-pgadmin -p 9001:5050 -d thajeztah/pgadmin
 echo "Success! Created pgadmin container"
 
 sudo docker container ls
+
+echo "Creating table in database"
+
+node index.js
