@@ -1,9 +1,12 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from "next/router"
 import styles from '../styles/PageContainer.module.css'
 
 export default function PageContainer(props) {
+  const { pathname: activePathName } = useRouter();
+
   return (
     <div className={styles.container}>
       <Head>
@@ -18,12 +21,12 @@ export default function PageContainer(props) {
         </label>
 
         <nav>
-          <Link href="/">
-            <a>Graph</a>
+          <Link href="/" >
+            <a className={!activePathName || activePathName == "/" ? styles.active : ""}>Graph</a>
           </Link>
 
           <Link href="/upload-data">
-            <a>Upload Sensor Data</a>
+            <a className={activePathName == "/upload-data" ? styles.active : ""}>Upload Sensor Data</a>
           </Link>
         </nav>
       </header>
