@@ -20,11 +20,12 @@ export default function handler(req, res) {
     const userId = fields.userId
     const userDataCsvFile = files.userDataCsvFile;
 
-    const results = []
-
     fs.createReadStream(userDataCsvFile.filepath)
       .pipe(csv())
-      .on('data', (data) => results.push(data))
+      .on('data', (data) => {
+        const skinResistData = Object.values(data)[0]
+        const moodData = Object.values(data)[3]
+      })
       .on('end', () => {
         fs.unlinkSync(userDataCsvFile.filepath)
         res.json({
