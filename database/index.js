@@ -2,6 +2,8 @@ const pgp = require("pg-promise")()
 const fs = require("fs")
 
 async function init() {
+  await new Promise((resolve) => setTimeout(resolve, 5000))
+
   let db = null
 
   const address = "localhost:9000"
@@ -18,13 +20,13 @@ async function init() {
     process.abort()
   }
 
-  const allSqlQueries = fs.readFileSync("init.sql", { encoding: "utf-8" })
 
   await db.connect()
-  console.log("Successfully connected to database")
+  const allSqlQueries = fs.readFileSync("init.sql", { encoding: "utf-8" })
 
   await db.any(allSqlQueries)
   console.log("Successfully created all tables")
+  process.exit()
 }
 
 init()

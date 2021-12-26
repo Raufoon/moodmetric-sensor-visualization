@@ -1,3 +1,11 @@
+echo "Destroying old containers"
+
+sudo docker stop moodmetric-postgres
+sudo docker stop moodmetric-pgadmin
+
+sudo docker rm moodmetric-postgres
+sudo docker rm moodmetric-pgadmin
+
 echo "Creating postgres database and pgadmin..."
 
 sudo docker run --rm -d --name moodmetric-postgres -e POSTGRES_PASSWORD=Pass1234 -p 9000:5432 postgres
