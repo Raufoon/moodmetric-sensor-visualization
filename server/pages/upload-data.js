@@ -9,6 +9,18 @@ export default function DataUpload() {
 
   async function onSubmitUserData(event) {
     event.preventDefault()
+
+    const data = new FormData()
+    data.append('userDataCsvFile', userDataFile)
+    data.append('userId', userId)
+
+    try {
+      await axios.post("api/upload-user-data", data)
+      window.alert("Successfully submitted user data")
+    }
+    catch (err) {
+      window.alert("ERROR: Failed to submit")
+    }
   }
 
   function onChange(event) {
