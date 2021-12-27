@@ -29,7 +29,7 @@ async function saveMoodData(userId, moodList) {
   }
 }
 
-export default function handler(req, res) {
+export default function (req, res) {
   if (req.method !== 'POST') {
     return res.status(405).end();
   }
