@@ -4,11 +4,17 @@ export default function (req, res) {
   }
 
   const userId = req.query.userId
-  const timestampBegin = req.query.timestampBegin
-  const timestampEnd = req.query.timestampEnd
+  const startTimestamp = req.query.startTimestamp
+  const endTimestamp = req.query.endTimestamp
+
+  console.log({
+    userId, startTimestamp, endTimestamp
+  })
 
   res.json({
     success: true,
     data: []
   })
+
+  res.end()
 }

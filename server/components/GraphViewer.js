@@ -27,13 +27,17 @@ export default function GraphViewer() {
     event.preventDefault()
 
     try {
-      const response = await axios.post("api/data-by-time-range", {
-        userId,
-        startTimestampMs: new Date(startTimestamp).getTime() / 1000,
-        endTimestampMs: new Date(endTimestamp).getTime() / 1000
+      const response = await axios.get("api/data-by-time-range", {
+        params: {
+          userId,
+          startTimestamp: new Date(startTimestamp).getTime() / 1000,
+          endTimestamp: new Date(endTimestamp).getTime() / 1000
+        }
       })
 
-      if (response.success) {
+      const { data } = response
+
+      if (data.success) {
         console.response(data)
       }
       else {
@@ -43,7 +47,7 @@ export default function GraphViewer() {
     catch (err) {
       window.alert("Failed to query")
     }
-  }, [])
+  }, [userId, startTimestamp, endTimestamp])
 
   return (
     <div className={styles.container}>
