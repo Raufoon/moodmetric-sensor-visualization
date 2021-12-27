@@ -6,10 +6,12 @@ import styles from "../styles/DataUpload.module.css"
 export default function () {
   const [userId, setUserId] = useState("")
   const [userDataFile, setUserDataFile] = useState(null)
+  const [isUploading, setUploading] = useState(false)
   const csvInputRef = useRef(null)
 
   async function onSubmitUserData(event) {
     event.preventDefault()
+    setUploading(true)
 
     const data = new FormData()
     data.append('userDataCsvFile', userDataFile)
@@ -25,6 +27,7 @@ export default function () {
 
     setUserId("")
     setUserDataFile(null)
+    setUploading(false)
     csvInputRef.current.value = null
   }
 
@@ -63,10 +66,14 @@ export default function () {
         <input ref={csvInputRef} type="file" onChange={onChange} name="userDataCsvFile" accept=".csv" />
 
         {
-          userId?.length > 4 && !!userDataFile && <>
+          !isUploading && userId?.length > 4 && !!userDataFile && <>
             <br />
             <input type="submit" value="Submit" />
           </>
+        }
+
+        {
+          isUploading && <i>Uploading data...</i>
         }
       </form>
     </PageContainer>
