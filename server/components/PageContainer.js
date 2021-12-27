@@ -25,8 +25,8 @@ export default function PageContainer(props) {
             <a className={!activePathName || activePathName == "/" ? styles.active : ""}>Graph</a>
           </Link>
 
-          <Link href="/upload-data">
-            <a className={activePathName == "/upload-data" ? styles.active : ""}>Upload Sensor Data</a>
+          <Link href="/upload-sensor-data">
+            <a className={activePathName == "/upload-sensor-data" ? styles.active : ""}>Upload Sensor Data</a>
           </Link>
         </nav>
       </header>

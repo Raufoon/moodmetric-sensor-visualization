@@ -3,7 +3,7 @@ import axios from "axios"
 import PageContainer from "../components/PageContainer"
 import styles from "../styles/DataUpload.module.css"
 
-export default function DataUpload() {
+export default function () {
   const [userId, setUserId] = useState("")
   const [userDataFile, setUserDataFile] = useState(null)
   const csvInputRef = useRef(null)
@@ -16,7 +16,7 @@ export default function DataUpload() {
     data.append('userId', userId)
 
     try {
-      await axios.post("api/upload-user-data", data)
+      await axios.post("api/upload-sensor-data", data)
       window.alert("Successfully submitted user data")
     }
     catch (err) {
