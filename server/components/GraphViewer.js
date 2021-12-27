@@ -37,11 +37,8 @@ export default function GraphViewer() {
 
       const { data } = response
 
-      if (data.success) {
-        console.response(data)
-      }
-      else {
-        throw new Error()
+      if (data?.success) {
+        console.log(data)
       }
     }
     catch (err) {

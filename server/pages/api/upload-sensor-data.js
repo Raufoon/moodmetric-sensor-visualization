@@ -14,7 +14,7 @@ async function saveSkinResistenceData(userId, skinResistanceList) {
 
   for (const data of skinResistanceList) {
     const query = `INSERT INTO SKIN_RESISTENCE VALUES('${userId}', to_timestamp(${data.t / 1000.0}), ${data.r});`
-    console.log(query)
+    // console.log(query)
     await queryDB(query)
   }
 }
@@ -24,7 +24,7 @@ async function saveMoodData(userId, moodList) {
 
   for (const data of moodList) {
     const query = `INSERT INTO MOOD VALUES('${userId}', to_timestamp(${data.t / 1000.0}), '${data.mk}');`
-    console.log(query)
+    // console.log(query)
     await queryDB(query)
   }
 }
