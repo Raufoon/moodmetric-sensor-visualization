@@ -6,7 +6,7 @@ sudo docker stop moodmetric-dbadmin
 sudo docker rm moodmetric-db
 sudo docker rm moodmetric-dbadmin
 
-echo "Creating mysql database and pgadmin..."
+echo "Creating mysql database and phpmyadmin..."
 
 sudo docker run --rm -d --name moodmetric-db -e MYSQL_ROOT_PASSWORD=Pass1234 -p 9000:3306 mysql
 
@@ -18,6 +18,4 @@ echo "Success! Created phpmyadmin container"
 
 sudo docker container ls
 
-echo "Creating table in database"
-
-# node index.js
+echo "Please run 'node index.js' to initialize the database"

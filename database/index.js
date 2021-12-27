@@ -1,32 +1,66 @@
-const pgp = require("pg-promise")()
-const fs = require("fs")
+const mysql = require('mysql2')
 
 async function init() {
-  await new Promise((resolve) => setTimeout(resolve, 5000))
+  console.log("Connecting to mysql database at localhost:9000")
+  await new Promise((resolve) => setTimeout(resolve, 10000))
 
   let db = null
 
-  const address = "localhost:9000"
-  const password = "Pass1234"
-  const username = "postgres"
-  const dbname = "moodmetric-postgres"
-
   try {
-    db = pgp(`postgres://${username}:${password}@${address}`)
-    console.log("Successfully connected to database")
+    db = mysql.createConnection({
+      host: 'localhost',
+      port: 9000,
+      user: 'root',
+      password: 'Pass1234',
+      database: 'mysql'
+    });
+
   }
   catch (err) {
-    console.error("Failed to connect to database")
-    process.abort()
+    throw err;
   }
 
+  db.connect(
+    function onConnect(err) {
+      if (err)
+        throw err;
 
-  await db.connect()
-  const allSqlQueries = fs.readFileSync("init.sql", { encoding: "utf-8" })
+      console.log("Successfully connected to database")
 
-  await db.any(allSqlQueries)
-  console.log("Successfully created all tables")
-  process.exit()
+      const allSqlQueries = [
+        `CREATE TABLE SKIN_RESISTENCE(
+          ID VARCHAR(20),
+          TIME_OF_CREATION TIMESTAMP UNIQUE,
+          VALUE INT,
+          PRIMARY KEY (ID, TIME_OF_CREATION)
+        );`,
+
+        `CREATE TABLE MOOD(
+          ID VARCHAR(20),
+          TIME_OF_CREATION TIMESTAMP UNIQUE,
+          VALUE VARCHAR(10),
+          PRIMARY KEY (ID, TIME_OF_CREATION)
+        );`
+      ]
+
+      let finished = 0
+
+      allSqlQueries.forEach(statement => {
+        db.query(statement, function onFinish(err) {
+          if (err)
+            throw err
+
+          console.log(`Executed: ${statement}`)
+
+          finished++
+          if (finished == allSqlQueries.length) {
+            console.log("The database is ready to use")
+            process.exit()
+          }
+        })
+      })
+    }
+  )
 }
 
 init()
