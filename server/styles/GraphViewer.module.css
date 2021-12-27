@@ -20,3 +20,8 @@
 .graphContainer {
   margin-top: 4rem;
 }
+
+.graphTooltip {
+  display: flex;
+  flex-direction: column;
+}

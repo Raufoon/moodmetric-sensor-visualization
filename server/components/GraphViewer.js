@@ -7,6 +7,7 @@ export default function GraphViewer() {
   const [userId, setUserId] = useState("")
   const [startTimestamp, setStartTimestamp] = useState(0)
   const [endTimestamp, setEndTimestamp] = useState(0)
+  const [chartData, setChartData] = useState([])
 
   const onChange = useCallback((event) => {
     switch (event.target.name) {
@@ -39,15 +40,13 @@ export default function GraphViewer() {
       const { data } = response
 
       if (data?.success) {
-        console.log(data)
+        setChartData(data.data)
       }
     }
     catch (err) {
       window.alert("Failed to query")
     }
   }, [userId, startTimestamp, endTimestamp])
-
-  const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 }, { name: 'Page B', uv: 200, pv: 1400, amt: 2300 },];
 
   return (
     <div className={styles.container}>
@@ -66,12 +65,12 @@ export default function GraphViewer() {
         </div>
       </form>
 
-      <ResponsiveContainer width={'95%'} height={300} className={styles.graphContainer}>
-        <LineChart data={data}>
-          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+      <ResponsiveContainer width={'95%'} height={400} className={styles.graphContainer}>
+        <LineChart data={chartData}>
+          <Line type="monotone" dataKey="R" stroke="#8884d8" dot={{ fill: '#8884d8' }} />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="T" />
+          <YAxis dataKey="R" />
           <Tooltip />
         </LineChart>
       </ResponsiveContainer>

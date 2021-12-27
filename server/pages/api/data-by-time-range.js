@@ -11,7 +11,7 @@ export default async function (req, res) {
 
   const statement = `
     SELECT 
-      SKIN_RESISTENCE.ID as ID, SKIN_RESISTENCE.TIME_OF_CREATION as T, SKIN_RESISTENCE.VALUE as R, MOOD.VALUE as MK 
+      SKIN_RESISTENCE.TIME_OF_CREATION as T, SKIN_RESISTENCE.VALUE as R, MOOD.VALUE as MK 
     FROM 
       SKIN_RESISTENCE LEFT JOIN MOOD 
         ON 
@@ -22,11 +22,14 @@ export default async function (req, res) {
       AND SKIN_RESISTENCE.TIME_OF_CREATION >= FROM_UNIXTIME(${startTimestamp}) 
       AND SKIN_RESISTENCE.TIME_OF_CREATION <= FROM_UNIXTIME(${endTimestamp});
   `
+
+  console.log(statement)
+
   try {
     const data = await queryDB(statement)
     res.json({
       success: true,
-      data
+      data: data[0]
     })
   }
   catch (err) {
