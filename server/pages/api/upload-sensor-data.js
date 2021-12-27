@@ -1,7 +1,7 @@
 import formidable from 'formidable'
 import fs from "fs"
 const csv = require('csv-parser')
-import { closeDB, connectDB, queryDB } from "../../utils/dbhelper"
+import { queryDB } from "../../utils/dbhelper"
 
 export const config = {
   api: {
