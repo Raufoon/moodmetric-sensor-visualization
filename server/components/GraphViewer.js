@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import axios from "axios"
 import styles from '../styles/GraphViewer.module.css'
 
@@ -7,7 +7,7 @@ export default function GraphViewer() {
   const [startTimestamp, setStartTimestamp] = useState(0)
   const [endTimestamp, setEndTimestamp] = useState(0)
 
-  function onChange(event) {
+  const onChange = useCallback((event) => {
     switch (event.target.name) {
       case "userId":
         setUserId(event.target.value)
@@ -21,9 +21,9 @@ export default function GraphViewer() {
         setEndTimestamp(event.target.value)
         break
     }
-  }
+  }, [])
 
-  async function onSubmit(event) {
+  const onSubmit = useCallback(async function (event) {
     event.preventDefault()
 
     try {
@@ -43,7 +43,7 @@ export default function GraphViewer() {
     catch (err) {
       window.alert("Failed to query")
     }
-  }
+  }, [])
 
   return (
     <div className={styles.container}>
