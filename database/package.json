@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mysql2": "^2.3.3",
-    "pg-promise": "^10.11.1"
+    "mysql2": "^2.3.3"
   }
 }
