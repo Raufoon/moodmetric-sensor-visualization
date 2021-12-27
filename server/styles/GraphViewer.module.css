@@ -1,0 +1,17 @@
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.control {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.control input {
+  min-height: 1.5rem;
+}
+

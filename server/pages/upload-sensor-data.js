@@ -1,7 +1,7 @@
 import { useRef, useState } from "react"
 import axios from "axios"
 import PageContainer from "../components/PageContainer"
-import styles from "../styles/DataUpload.module.css"
+import styles from "../styles/upload-sensor-data.module.css"
 
 export default function () {
   const [userId, setUserId] = useState("")
