@@ -30,16 +30,16 @@ async function init() {
       const allSqlQueries = [
         `CREATE TABLE SKIN_RESISTENCE(
           ID VARCHAR(20),
-          TIME_OF_CREATION TIMESTAMP UNIQUE,
+          TIME_OF_CREATION DATETIME(3),
           VALUE INT,
-          PRIMARY KEY (ID, TIME_OF_CREATION)
+          PRIMARY KEY (ID, TIME_OF_CREATION, VALUE)
         );`,
 
         `CREATE TABLE MOOD(
           ID VARCHAR(20),
-          TIME_OF_CREATION TIMESTAMP UNIQUE,
+          TIME_OF_CREATION DATETIME(3),
           VALUE VARCHAR(10),
-          PRIMARY KEY (ID, TIME_OF_CREATION)
+          PRIMARY KEY (ID, TIME_OF_CREATION, VALUE)
         );`
       ]
 

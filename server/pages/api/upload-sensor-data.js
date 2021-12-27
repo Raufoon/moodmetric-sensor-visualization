@@ -13,9 +13,14 @@ async function saveSkinResistenceData(userId, skinResistanceList) {
   if (!skinResistanceList || skinResistanceList.length == 0) { return }
 
   for (const data of skinResistanceList) {
-    const query = `INSERT INTO SKIN_RESISTENCE VALUES('${userId}', to_timestamp(${data.t / 1000.0}), ${data.r});`
+    const query = `INSERT INTO SKIN_RESISTENCE VALUES('${userId}', FROM_UNIXTIME(${data.t}* 0.001), ${data.r});`
     // console.log(query)
-    await queryDB(query)
+
+    try {
+      await queryDB(query)
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 }
 
@@ -23,9 +28,14 @@ async function saveMoodData(userId, moodList) {
   if (!moodList || moodList.length == 0) { return }
 
   for (const data of moodList) {
-    const query = `INSERT INTO MOOD VALUES('${userId}', to_timestamp(${data.t / 1000.0}), '${data.mk}');`
+    const query = `INSERT INTO MOOD VALUES('${userId}', FROM_UNIXTIME(${data.t}* 0.001), '${data.mk}');`
     // console.log(query)
-    await queryDB(query)
+
+    try {
+      await queryDB(query)
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 }
 
