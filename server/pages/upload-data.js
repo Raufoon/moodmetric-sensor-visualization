@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import axios from "axios"
 import PageContainer from "../components/PageContainer"
 import styles from "../styles/DataUpload.module.css"
@@ -6,6 +6,7 @@ import styles from "../styles/DataUpload.module.css"
 export default function DataUpload() {
   const [userId, setUserId] = useState("")
   const [userDataFile, setUserDataFile] = useState(null)
+  const csvInputRef = useRef(null)
 
   async function onSubmitUserData(event) {
     event.preventDefault()
@@ -24,6 +25,7 @@ export default function DataUpload() {
 
     setUserId("")
     setUserDataFile(null)
+    csvInputRef.current.value = null
   }
 
   function onChange(event) {
@@ -37,8 +39,9 @@ export default function DataUpload() {
 
       case "userDataCsvFile":
         {
-          if (event.target.files.length)
+          if (event.target.files.length) {
             setUserDataFile(event.target.files[0])
+          }
           break
         }
     }
@@ -52,12 +55,12 @@ export default function DataUpload() {
         className={styles.formContainer}
         onSubmit={onSubmitUserData}
       >
-        <label>User ID</label>
+        <label>User ID:</label>
         <input name="userId" onChange={onChange} placeholder="at least 5 characters" value={userId} />
 
         <br />
-        <label>User Data (.csv)</label>
-        <input type="file" onChange={onChange} name="userDataCsvFile" accept=".csv" />
+        <label>User Data (.csv):</label>
+        <input ref={csvInputRef} type="file" onChange={onChange} name="userDataCsvFile" accept=".csv" />
 
         {
           userId?.length > 4 && !!userDataFile && <>
