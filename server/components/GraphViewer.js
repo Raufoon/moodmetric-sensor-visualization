@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react"
 import axios from "axios"
+import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import styles from '../styles/GraphViewer.module.css'
 
 export default function GraphViewer() {
@@ -46,6 +47,8 @@ export default function GraphViewer() {
     }
   }, [userId, startTimestamp, endTimestamp])
 
+  const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 }, { name: 'Page B', uv: 200, pv: 1400, amt: 2300 },];
+
   return (
     <div className={styles.container}>
       <form className={styles.control} onSubmit={onSubmit}>
@@ -62,6 +65,16 @@ export default function GraphViewer() {
           <input type="submit" value="Load" />
         </div>
       </form>
+
+      <ResponsiveContainer width={'95%'} height={300} className={styles.graphContainer}>
+        <LineChart data={data}>
+          <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   )
 }

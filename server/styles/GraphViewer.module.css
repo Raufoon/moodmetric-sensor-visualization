@@ -1,7 +1,9 @@
 .container {
-  padding: 1rem;
+  padding: 2rem;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
+  border: 1px solid lightgray;
 }
 
 .control {
@@ -15,3 +17,6 @@
   min-height: 1.5rem;
 }
 
+.graphContainer {
+  margin-top: 4rem;
+}
