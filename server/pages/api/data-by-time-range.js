@@ -1,4 +1,6 @@
-export default function (req, res) {
+import { queryDB } from "../../utils/dbhelper";
+
+export default async function (req, res) {
   if (req.method !== 'GET') {
     return res.status(405).end();
   }
@@ -7,21 +9,32 @@ export default function (req, res) {
   const startTimestamp = req.query.startTimestamp
   const endTimestamp = req.query.endTimestamp
 
-  const rQuery = `
+  const statement = `
     SELECT 
-      SKIN_RESISTENCE.VALUE AS R, SKIN_RESISTENCE.TIME_OF_CREATION AS TR,
+      SKIN_RESISTENCE.ID as ID, SKIN_RESISTENCE.TIME_OF_CREATION as T, SKIN_RESISTENCE.VALUE as R, MOOD.VALUE as MK 
     FROM 
-      SKIN_RESISTENCE FULL OUTER JOIN MOOD ON SKIN_RESISTENCE.TIME_OF_CREATION = MOOD.TIME_OF_CREATION
+      SKIN_RESISTENCE LEFT JOIN MOOD 
+        ON 
+          SKIN_RESISTENCE.TIME_OF_CREATION = MOOD.TIME_OF_CREATION
+          AND SKIN_RESISTENCE.ID = MOOD.ID
     WHERE
-      SKIN_RESISTENCE.ID = ${userId} or MOOD.ID = ${userId};
+      SKIN_RESISTENCE.ID = '${userId}' 
+      AND SKIN_RESISTENCE.TIME_OF_CREATION >= FROM_UNIXTIME(${startTimestamp}) 
+      AND SKIN_RESISTENCE.TIME_OF_CREATION <= FROM_UNIXTIME(${endTimestamp});
   `
-
-  console.log(query)
-
-  res.json({
-    success: true,
-    data: []
-  })
+  try {
+    const data = await queryDB(statement)
+    res.json({
+      success: true,
+      data
+    })
+  }
+  catch (err) {
+    res.json({
+      success: false,
+      data: err.message
+    })
+  }
 
   res.end()
 }
