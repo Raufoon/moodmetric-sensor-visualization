@@ -37,3 +37,12 @@
   display: flex;
   gap: 3rem;
 }
+
+.dataLoaderBtn {
+  background-color: #4f48e2;
+  color: white;
+  border: none;
+  min-width: 5rem;
+  font-weight: bold;
+  border-radius: 5px;
+}

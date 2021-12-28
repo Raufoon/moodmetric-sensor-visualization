@@ -45,6 +45,7 @@ export default function GraphViewer() {
   const [time, setTime] = useState(0)
   const [limit, setLimit] = useState(100)
   const [chartData, setChartData] = useState([])
+  const [isLoading, setLoading] = useState(false)
 
   const onChange = useCallback((event) => {
     switch (event.target.name) {
@@ -70,6 +71,8 @@ export default function GraphViewer() {
     event.preventDefault()
 
     try {
+      setLoading(true)
+
       const response = await axios.get("api/data-by-time-range", {
         params: {
           userId,
@@ -86,6 +89,8 @@ export default function GraphViewer() {
     catch (err) {
       window.alert("Failed to query")
     }
+
+    setLoading(false)
   }, [userId, date, time, limit])
 
   const totalR = useMemo(() => {
@@ -134,9 +139,12 @@ export default function GraphViewer() {
         <input name="limit" value={limit} onChange={onChange} type="number" />
 
         <div>
-          <input type="submit" value="Load" />
+          {
+            isLoading ? "Loading..." : <input className={styles.dataLoaderBtn} type="submit" value="Load" />
+          }
         </div>
       </form>
+
 
       <ResponsiveContainer width={'95%'} height={350} className={styles.graphContainer}>
         <LineChart data={chartData}>
