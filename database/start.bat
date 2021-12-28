@@ -1,23 +1,21 @@
 echo "Destroying old containers"
 
-docker stop moodmetric-postgres
-docker stop moodmetric-pgadmin
+docker stop moodmetric-db
+docker stop moodmetric-dbadmin
 
-docker rm moodmetric-postgres
-docker rm moodmetric-pgadmin
+docker rm moodmetric-db
+docker rm moodmetric-dbadmin
 
-echo "Creating postgres database and pgadmin..."
+echo "Creating mysql database and phpmyadmin..."
 
-docker run --rm -d --name moodmetric-postgres -e POSTGRES_PASSWORD=Pass1234 -p 9000:5432 postgres
+docker run --rm -d --name moodmetric-db -e MYSQL_ROOT_PASSWORD=Pass1234 -p 9000:3306 mysql
 
-echo "Success! Created postgres database container"
+echo "Success! Created mysql database container"
 
-docker run --rm --name moodmetric-pgadmin -p 9001:5050 -d thajeztah/pgadmin4
+docker run --rm --name moodmetric-dbadmin --link moodmetric-db:db -p 9001:80 -d phpmyadmin
 
-echo "Success! Created pgadmin container"
+echo "Success! Created phpmyadmin container"
 
 docker container ls
 
-echo "Creating table in database"
-
-node index.js
+echo "Please run 'node index.js' to initialize the database"
