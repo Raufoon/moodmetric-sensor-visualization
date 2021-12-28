@@ -5,11 +5,16 @@ import styles from '../styles/GraphViewer.module.css'
 
 function XAxisTick(props) {
   const { x, y, payload } = props
+  const label = new Date(payload.value * 1000).toLocaleString()
+  const [label1, label2] = label.split(",")
 
   return (
     <g transform={`translate(${x},${y}) scale(0.7)`}>
-      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" >
-        {new Date(payload.value * 1000).toLocaleTimeString()}
+      <text x={0} y={0} dy={16} textAnchor="end" fill="#666">
+        {label1}
+      </text>
+      <text x={0} y={20} dy={16} textAnchor="end" fill="#666">
+        {label2}
       </text>
     </g>
   )
@@ -21,7 +26,7 @@ function CustomTooltip({ active, payload, label }) {
 
     return (
       <div className={styles.graphTooltip}>
-        <label>{new Date(label * 1000).toLocaleTimeString()}</label>
+        <label>{new Date(label * 1000).toLocaleString()}</label>
         {
           Object.entries(data)
             .map(pair =>
