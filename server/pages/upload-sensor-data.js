@@ -13,13 +13,14 @@ export default function () {
     event.preventDefault()
     setUploading(true)
 
-    const data = new FormData()
-    data.append('userDataCsvFile', userDataFile)
-    data.append('userId', userId)
+    const formData = new FormData()
+    formData.append('userDataCsvFile', userDataFile)
+    formData.append('userId', userId)
 
     try {
-      await axios.post("api/upload-sensor-data", data)
-      window.alert("Successfully submitted user data")
+      const { data } = await axios.post("api/upload-sensor-data", formData)
+      const { success, message } = data
+      window.alert(success ? "Successfully submitted user data" : message)
     }
     catch (err) {
       window.alert("ERROR: Failed to submit")
