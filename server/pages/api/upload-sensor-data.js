@@ -4,9 +4,7 @@ const csv = require('csv-parser')
 import { queryDB } from "../../utils/dbhelper"
 
 export const config = {
-  api: {
-    bodyParser: false,
-  },
+  api: { bodyParser: false },
 }
 
 async function saveSkinResistenceData(userId, skinResistanceList) {
@@ -14,11 +12,11 @@ async function saveSkinResistenceData(userId, skinResistanceList) {
 
   for (const data of skinResistanceList) {
     const query = `INSERT INTO SKIN_RESISTENCE VALUES('${userId}', FROM_UNIXTIME(${data.t}* 0.001), ${data.r});`
-    // console.log(query)
 
     try {
       await queryDB(query)
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err.message)
     }
   }
@@ -29,11 +27,11 @@ async function saveMoodData(userId, moodList) {
 
   for (const data of moodList) {
     const query = `INSERT INTO MOOD VALUES('${userId}', FROM_UNIXTIME(${data.t}* 0.001), '${data.mk}');`
-    // console.log(query)
 
     try {
       await queryDB(query)
-    } catch (err) {
+    }
+    catch (err) {
       console.log(err.message)
     }
   }
@@ -45,9 +43,14 @@ export default function (req, res) {
   }
 
   const form = new formidable.IncomingForm({ uploadDir: "./tmp" });
+
   form.keepExtensions = true;
 
   form.parse(req, (err, fields, files) => {
+    if (err) {
+      res.status(404).json({ success: false, message: "Could not parse CSV" })
+    }
+
     const userId = fields.userId
     const userDataCsvFile = files.userDataCsvFile;
 
@@ -60,7 +63,7 @@ export default function (req, res) {
           saveSkinResistenceData(userId, skinResistanceList)
         }
         catch (err) {
-          // empty data
+          res.status(404).json({ success: false, message: "Current CSV row (A) is empty" })
         }
 
         try {
@@ -69,20 +72,16 @@ export default function (req, res) {
           saveMoodData(userId, moodList)
         }
         catch (err) {
-          // empty data
+          res.status(404).json({ success: false, message: "Current CSV row (D) is empty" })
         }
 
       })
       .on('end', () => {
         fs.unlinkSync(userDataCsvFile.filepath)
-        res.json({
-          success: true
-        })
+        res.json({ success: true })
       })
       .on("error", () => {
-        res.status(404).json({
-          success: false
-        })
+        res.status(404).json({ success: false, message: "Something went wrong" })
       })
   })
 }

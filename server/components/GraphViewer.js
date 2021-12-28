@@ -4,7 +4,7 @@ import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Lege
 import styles from '../styles/GraphViewer.module.css'
 
 function XAxisTick(props) {
-  const { x, y, stroke, payload } = props
+  const { x, y, payload } = props
 
   return (
     <g transform={`translate(${x},${y}) scale(0.7)`}>
@@ -16,14 +16,16 @@ function XAxisTick(props) {
 }
 
 function CustomTooltip({ active, payload, label }) {
-  if (active && payload && payload.length) {
+  if (active && payload?.length) {
     const data = payload[0].payload
 
     return (
       <div className={styles.graphTooltip}>
         <label>{new Date(label * 1000).toLocaleTimeString()}</label>
         {
-          Object.entries(data).map(pair => <label><b>{pair[0]}:</b> {pair[1]}</label>)
+          Object.entries(data)
+            .map(pair =>
+              <label><b>{pair[0]}:</b> {pair[1]}</label>)
         }
       </div>
     );
@@ -66,7 +68,6 @@ export default function GraphViewer() {
       })
 
       const { data } = response
-
       if (data?.success) {
         setChartData(data.data)
       }
@@ -91,7 +92,7 @@ export default function GraphViewer() {
   }, [chartData])
 
   const avgR = useMemo(() => {
-    const rData = chartData.filter(data => !!data.R)
+    const rData = chartData?.filter(data => !!data.R)
 
     if (!rData || rData.length == 0)
       return 0
