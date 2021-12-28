@@ -24,4 +24,11 @@
 .graphTooltip {
   display: flex;
   flex-direction: column;
+  background-color: rgba(255,255,255, 0.85);
+  padding: 1rem;
+  border: 1px solid #4f48e2;
+  font-size: small;
+  box-shadow: 0 0 2px white;
+  border-radius: 5px;
+  gap: 5px;
 }

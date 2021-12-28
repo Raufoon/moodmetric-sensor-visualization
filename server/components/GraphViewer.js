@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import axios from "axios"
-import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
+import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip } from "recharts"
 import styles from '../styles/GraphViewer.module.css'
 
 function XAxisTick(props) {
@@ -14,6 +14,23 @@ function XAxisTick(props) {
     </g>
   )
 }
+
+function CustomTooltip({ active, payload, label }) {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload
+
+    return (
+      <div className={styles.graphTooltip}>
+        <label>{new Date(label * 1000).toLocaleTimeString()}</label>
+        {
+          Object.entries(data).map(pair => <label><b>{pair[0]}:</b> {pair[1]}</label>)
+        }
+      </div>
+    );
+  }
+
+  return null;
+};
 
 export default function GraphViewer() {
   const [userId, setUserId] = useState("")
@@ -82,7 +99,8 @@ export default function GraphViewer() {
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
           <XAxis dataKey="T" tick={<XAxisTick />} />
           <YAxis dataKey="R" />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend verticalAlign="top" height={36} />
         </LineChart>
       </ResponsiveContainer>
     </div>
