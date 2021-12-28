@@ -7,6 +7,7 @@ export default async function (req, res) {
 
   const userId = req.query.userId
   const startTimestamp = req.query.startTimestamp
+  const limit = req.query.limit
 
   const statement = `
     (
@@ -16,11 +17,9 @@ export default async function (req, res) {
         SKIN_RESISTENCE LEFT JOIN MOOD ON SKIN_RESISTENCE.TIME_OF_CREATION = MOOD.TIME_OF_CREATION AND SKIN_RESISTENCE.ID = MOOD.ID
       WHERE
         SKIN_RESISTENCE.ID = '${userId}' AND SKIN_RESISTENCE.TIME_OF_CREATION <= FROM_UNIXTIME(${startTimestamp})
-      LIMIT 100
+      LIMIT ${limit}
     )
-
     UNION ALL
-
     (
       SELECT 
         UNIX_TIMESTAMP(MOOD.TIME_OF_CREATION) as T, SKIN_RESISTENCE.VALUE as R, MOOD.VALUE as MK 
@@ -28,7 +27,7 @@ export default async function (req, res) {
         SKIN_RESISTENCE RIGHT JOIN MOOD ON SKIN_RESISTENCE.TIME_OF_CREATION = MOOD.TIME_OF_CREATION AND SKIN_RESISTENCE.ID = MOOD.ID
       WHERE
         MOOD.ID = '${userId}' AND MOOD.TIME_OF_CREATION <= FROM_UNIXTIME(${startTimestamp})
-      LIMIT 100
+      LIMIT ${limit}
     );
   `
 

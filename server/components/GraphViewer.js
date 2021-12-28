@@ -43,6 +43,7 @@ export default function GraphViewer() {
   const [userId, setUserId] = useState("")
   const [date, setDate] = useState(0)
   const [time, setTime] = useState(0)
+  const [limit, setLimit] = useState(100)
   const [chartData, setChartData] = useState([])
 
   const onChange = useCallback((event) => {
@@ -58,6 +59,10 @@ export default function GraphViewer() {
       case "time":
         setTime(event.target.value)
         break
+
+      case "limit":
+        setLimit(event.target.value)
+        break
     }
   }, [])
 
@@ -69,6 +74,7 @@ export default function GraphViewer() {
         params: {
           userId,
           startTimestamp: new Date(date + " " + time).getTime() / 1000,
+          limit
         }
       })
 
@@ -80,7 +86,7 @@ export default function GraphViewer() {
     catch (err) {
       window.alert("Failed to query")
     }
-  }, [userId, date, time])
+  }, [userId, date, time, limit])
 
   const totalR = useMemo(() => {
     if (!chartData)
@@ -119,11 +125,13 @@ export default function GraphViewer() {
         <label>User ID</label>
         <label>Date</label>
         <label>Time</label>
+        <label>Limit</label>
         <label>&nbsp;</label>
 
-        <input name="userId" onChange={onChange} placeholder="at least 5 characters" />
-        <input name="date" onChange={onChange} type="date" />
-        <input name="time" onChange={onChange} type="time" step="1" />
+        <input name="userId" value={userId} onChange={onChange} placeholder="at least 5 characters" />
+        <input name="date" value={date} onChange={onChange} type="date" />
+        <input name="time" value={time} onChange={onChange} type="time" step="1" />
+        <input name="limit" value={limit} onChange={onChange} type="number" />
 
         <div>
           <input type="submit" value="Load" />
