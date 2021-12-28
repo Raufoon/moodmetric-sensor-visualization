@@ -42,7 +42,7 @@ export default function (req, res) {
     return res.status(405).end();
   }
 
-  const form = new formidable.IncomingForm({ uploadDir: "./tmp" });
+  const form = new formidable.IncomingForm({ uploadDir: "tmp" });
 
   form.keepExtensions = true;
 
