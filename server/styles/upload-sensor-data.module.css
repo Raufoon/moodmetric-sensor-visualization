@@ -1,6 +1,9 @@
 .formContainer {
   display: flex;
   flex-direction: column;
+  border: 1px solid lightgray;
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 .formContainer > * {

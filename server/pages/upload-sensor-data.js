@@ -52,8 +52,6 @@ export default function () {
 
   return (
     <PageContainer>
-      <h1>Upload user data</h1>
-
       <form
         className={styles.formContainer}
         onSubmit={onSubmitUserData}
