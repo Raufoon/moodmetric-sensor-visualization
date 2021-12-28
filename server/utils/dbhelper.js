@@ -15,8 +15,9 @@ function initDB() {
 
 // To execute an SQL query in database
 module.exports.queryDB = async function (sqlQueryString) {
-  if (db === null)
+  if (db === null) {
     db = await initDB()
+  }
 
   return db.query(sqlQueryString)
 }

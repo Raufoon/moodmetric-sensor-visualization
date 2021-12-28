@@ -59,9 +59,6 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
-  position: sticky;
-  bottom: 0;
-  left: 0;
 }
 
 .footer a {

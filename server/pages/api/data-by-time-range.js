@@ -11,7 +11,7 @@ export default async function (req, res) {
 
   const statement = `
     SELECT 
-      SKIN_RESISTENCE.TIME_OF_CREATION as T, SKIN_RESISTENCE.VALUE as R, MOOD.VALUE as MK 
+    UNIX_TIMESTAMP(SKIN_RESISTENCE.TIME_OF_CREATION) as T, SKIN_RESISTENCE.VALUE as R, MOOD.VALUE as MK 
     FROM 
       SKIN_RESISTENCE LEFT JOIN MOOD 
         ON 
