@@ -25,6 +25,8 @@ export default async function (req, res) {
     })
   })
 
+  let hasRData = false
+  let hasMkData = false
   let rInsertQuery = 'INSERT IGNORE INTO SKIN_RESISTENCE VALUES'
   let mkInsertQuery = 'INSERT IGNORE INTO MOOD VALUES'
 
@@ -37,6 +39,7 @@ export default async function (req, res) {
 
         for (const data of skinResistanceList) {
           rInsertQuery += `('${userId}', FROM_UNIXTIME(${data.t}* 0.001), ${data.r}),`
+          hasRData = true
         }
       }
       catch (err) { }
@@ -47,6 +50,7 @@ export default async function (req, res) {
 
         for (const data of moodList) {
           mkInsertQuery += `('${userId}', FROM_UNIXTIME(${data.t}* 0.001), '${data.mk}'),`
+          hasMkData = true
         }
       }
       catch (err) { }
@@ -56,20 +60,24 @@ export default async function (req, res) {
       rInsertQuery = rInsertQuery.slice(0, -1) + ';'
       mkInsertQuery = mkInsertQuery.slice(0, -1) + ';'
 
-      try {
-        await queryDB(rInsertQuery)
-      }
-      catch (err) {
-        res.json({ success: false, message: "Could not upload r data" })
-        return
+      if (hasRData) {
+        try {
+          await queryDB(rInsertQuery)
+        }
+        catch (err) {
+          res.json({ success: false, message: "Could not upload r data" })
+          return
+        }
       }
 
-      try {
-        await queryDB(mkInsertQuery)
-      }
-      catch (err) {
-        res.json({ success: false, message: "Uploaded r data but could not upload mk data" })
-        return
+      if (hasMkData) {
+        try {
+          await queryDB(mkInsertQuery)
+        }
+        catch (err) {
+          res.json({ success: false, message: "Uploaded r data but could not upload mk data" })
+          return
+        }
       }
 
       res.json({ success: true })
