@@ -3,6 +3,18 @@ import axios from "axios"
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import styles from '../styles/GraphViewer.module.css'
 
+function XAxisTick(props) {
+  const { x, y, stroke, payload } = props
+
+  return (
+    <g transform={`translate(${x},${y}) scale(0.7)`}>
+      <text x={0} y={0} dy={16} textAnchor="end" fill="#666" >
+        {new Date(payload.value * 1000).toLocaleTimeString()}
+      </text>
+    </g>
+  )
+}
+
 export default function GraphViewer() {
   const [userId, setUserId] = useState("")
   const [startTimestamp, setStartTimestamp] = useState(0)
@@ -69,7 +81,7 @@ export default function GraphViewer() {
         <LineChart data={chartData}>
           <Line type="monotone" dataKey="R" stroke="#8884d8" dot={{ fill: '#8884d8' }} />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="T" />
+          <XAxis dataKey="T" tick={<XAxisTick />} />
           <YAxis dataKey="R" />
           <Tooltip />
         </LineChart>
