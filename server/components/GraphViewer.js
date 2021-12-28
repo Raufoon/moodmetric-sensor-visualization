@@ -132,10 +132,12 @@ export default function GraphViewer() {
 
       <ResponsiveContainer width={'95%'} height={350} className={styles.graphContainer}>
         <LineChart data={chartData}>
-          <Line type="monotone" dataKey="R" stroke="#8884d8" dot={{ fill: '#8884d8' }} />
+          <Line type="monotone" dataKey="R" stroke="#8884d8" dot={{ fill: '#8884d8' }} yAxisId={0} />
+          <Line type="monotone" dataKey="MK" stroke="transparent" dot={{ fill: '#fa2' }} yAxisId={1} />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
           <XAxis dataKey="T" tick={<XAxisTick />} />
-          <YAxis dataKey="R" />
+          <YAxis dataKey="R" yAxisId={0} />
+          <YAxis padding={{ top: 20, bottom: 20 }} dataKey="MK" type="category" yAxisId={1} orientation="right" />
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={36} />
         </LineChart>
