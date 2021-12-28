@@ -17,8 +17,8 @@ function XAxisTick(props) {
 
 export default function GraphViewer() {
   const [userId, setUserId] = useState("")
-  const [startTimestamp, setStartTimestamp] = useState(0)
-  const [endTimestamp, setEndTimestamp] = useState(0)
+  const [date, setDate] = useState(0)
+  const [time, setTime] = useState(0)
   const [chartData, setChartData] = useState([])
 
   const onChange = useCallback((event) => {
@@ -27,12 +27,12 @@ export default function GraphViewer() {
         setUserId(event.target.value)
         break
 
-      case "startTimestamp":
-        setStartTimestamp(event.target.value)
+      case "date":
+        setDate(event.target.value)
         break
 
-      case "endTimestamp":
-        setEndTimestamp(event.target.value)
+      case "time":
+        setTime(event.target.value)
         break
     }
   }, [])
@@ -44,8 +44,7 @@ export default function GraphViewer() {
       const response = await axios.get("api/data-by-time-range", {
         params: {
           userId,
-          startTimestamp: new Date(startTimestamp).getTime() / 1000,
-          endTimestamp: new Date(endTimestamp).getTime() / 1000
+          startTimestamp: new Date(date + " " + time).getTime() / 1000,
         }
       })
 
@@ -58,26 +57,26 @@ export default function GraphViewer() {
     catch (err) {
       window.alert("Failed to query")
     }
-  }, [userId, startTimestamp, endTimestamp])
+  }, [userId, date, time])
 
   return (
     <div className={styles.container}>
       <form className={styles.control} onSubmit={onSubmit}>
         <label>User ID</label>
-        <label>Begin</label>
-        <label>End</label>
+        <label>Date</label>
+        <label>Time</label>
         <label>&nbsp;</label>
 
         <input name="userId" onChange={onChange} placeholder="at least 5 characters" />
-        <input name="startTimestamp" onChange={onChange} type="datetime-local" />
-        <input name="endTimestamp" onChange={onChange} type="datetime-local" />
+        <input name="date" onChange={onChange} type="date" />
+        <input name="time" onChange={onChange} type="time" step="1" />
 
         <div>
           <input type="submit" value="Load" />
         </div>
       </form>
 
-      <ResponsiveContainer width={'95%'} height={400} className={styles.graphContainer}>
+      <ResponsiveContainer width={'95%'} height={350} className={styles.graphContainer}>
         <LineChart data={chartData}>
           <Line type="monotone" dataKey="R" stroke="#8884d8" dot={{ fill: '#8884d8' }} />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
