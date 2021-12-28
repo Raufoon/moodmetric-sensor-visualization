@@ -32,3 +32,8 @@
   border-radius: 5px;
   gap: 5px;
 }
+
+.summary {
+  display: flex;
+  gap: 3rem;
+}

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import axios from "axios"
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip } from "recharts"
 import styles from '../styles/GraphViewer.module.css'
@@ -76,6 +76,37 @@ export default function GraphViewer() {
     }
   }, [userId, date, time])
 
+  const totalR = useMemo(() => {
+    if (!chartData)
+      return 0
+
+    return chartData.filter(data => !!data.R).length
+  }, [chartData])
+
+  const totalMk = useMemo(() => {
+    if (!chartData)
+      return 0
+
+    return chartData.filter(data => !!data.MK).length
+  }, [chartData])
+
+  const avgR = useMemo(() => {
+    const rData = chartData.filter(data => !!data.R)
+
+    if (!rData || rData.length == 0)
+      return 0
+
+    let avg = rData[0].R
+
+    for (const d of rData) {
+      avg = (avg + d.R) / 2
+    }
+
+    return avg
+
+  }, [chartData])
+
+
   return (
     <div className={styles.container}>
       <form className={styles.control} onSubmit={onSubmit}>
@@ -103,6 +134,15 @@ export default function GraphViewer() {
           <Legend verticalAlign="top" height={36} />
         </LineChart>
       </ResponsiveContainer>
+
+      <div >
+        <h3>Summary:</h3>
+        <div className={styles.summary}>
+          <label>Total "R": {totalR}</label>
+          <label>Total "MK": {totalMk}</label>
+          <label>Average "R": {avgR}</label>
+        </div>
+      </div>
     </div>
   )
 }
