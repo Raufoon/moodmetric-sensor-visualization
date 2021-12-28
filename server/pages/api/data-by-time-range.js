@@ -18,7 +18,7 @@ export default async function (req, res) {
           AND SKIN_RESISTENCE.ID = MOOD.ID
     WHERE
       SKIN_RESISTENCE.ID = '${userId}' 
-      AND SKIN_RESISTENCE.TIME_OF_CREATION >= FROM_UNIXTIME(${startTimestamp})
+      AND SKIN_RESISTENCE.TIME_OF_CREATION <= FROM_UNIXTIME(${startTimestamp})
     LIMIT 500;
   `
 
