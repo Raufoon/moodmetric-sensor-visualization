@@ -63,4 +63,10 @@ async function init() {
   )
 }
 
-init()
+try {
+  init()
+}
+catch (err) {
+  console.error(err)
+  console.log("PLEASE TRY AGAIN")
+}
