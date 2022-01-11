@@ -33,11 +33,6 @@
   gap: 5px;
 }
 
-.summary {
-  display: flex;
-  gap: 3rem;
-}
-
 .dataLoaderBtn {
   background-color: #4f48e2;
   color: white;
