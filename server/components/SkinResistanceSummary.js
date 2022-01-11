@@ -13,8 +13,8 @@ export default function SkinResistanceSummary({ userId }) {
   }, [userId])
 
   return (
-    <>
-      <h3>Summary of skin resistence for user {userId} </h3>
+    <div style={{ backgroundColor: "#f0f0f0", padding: '1rem', margin: '1rem', borderRadius: '1rem' }}>
+      <h4>Summary of skin resistence for user {userId} </h4>
       {
         summary && (
           <div style={{ display: 'flex', gap: '2rem', fontSize: "small" }}>
@@ -24,6 +24,6 @@ export default function SkinResistanceSummary({ userId }) {
           </div>
         )
       }
-    </>
+    </div>
   )
 }
