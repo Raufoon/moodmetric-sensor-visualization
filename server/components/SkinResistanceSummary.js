@@ -18,8 +18,8 @@ export default function SkinResistanceSummary({ userId }) {
       {
         summary && (
           <div style={{ display: 'flex', gap: '2rem', fontSize: "small" }}>
-            <p>Minimum: {summary.minR} in ({new Date(summary.minRt).toLocaleString()})</p>
-            <p>Maximum: {summary.maxR} in ({new Date(summary.maxRt).toLocaleString()})</p>
+            <p>Minimum: {summary.minR} on {new Date(summary.minRt).toLocaleString()}</p>
+            <p>Maximum: {summary.maxR} on {new Date(summary.maxRt).toLocaleString()}</p>
             <p>Average: {summary.avgR}</p>
           </div>
         )
