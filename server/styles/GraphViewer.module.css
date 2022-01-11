@@ -1,16 +1,14 @@
 .container {
-  padding: 2rem;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
-  border: 1px solid lightgray;
 }
 
 .control {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 10px;
 }
 
 .control input {
@@ -18,7 +16,7 @@
 }
 
 .graphContainer {
-  margin-top: 4rem;
+  margin-top: 1rem;
 }
 
 .graphTooltip {

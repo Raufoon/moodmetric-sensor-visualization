@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useState } from "react"
 import axios from "axios"
 import { ResponsiveContainer, LineChart, Line, CartesianGrid, XAxis, YAxis, Legend, Tooltip } from "recharts"
 import styles from '../styles/GraphViewer.module.css'
@@ -30,7 +30,13 @@ function CustomTooltip({ active, payload, label }) {
         {
           Object.entries(data)
             .map(pair =>
-              <label><b>{pair[0]}:</b> {pair[1]}</label>)
+              <label>
+                <b>
+                  {pair[0]}:
+                </b>
+                {pair[1]}
+              </label>
+            )
         }
       </div>
     );
@@ -39,8 +45,7 @@ function CustomTooltip({ active, payload, label }) {
   return null;
 };
 
-export default function GraphViewer() {
-  const [userId, setUserId] = useState("")
+export default function GraphViewer({ userId, setUserId }) {
   const [date, setDate] = useState(0)
   const [time, setTime] = useState(0)
   const [limit, setLimit] = useState(100)
@@ -65,7 +70,7 @@ export default function GraphViewer() {
         setLimit(event.target.value)
         break
     }
-  }, [])
+  }, [setUserId])
 
   const onSubmit = useCallback(async function (event) {
     event.preventDefault()
