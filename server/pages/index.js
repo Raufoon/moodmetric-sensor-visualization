@@ -9,6 +9,7 @@ export default function () {
   return (
     <PageContainer>
       <GraphViewer userId={userId} setUserId={setUserId} />
+      <br/>
       {userId && <SkinResistanceSummary userId={userId} />}
     </PageContainer>
   )
